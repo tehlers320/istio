@@ -274,3 +274,17 @@ func BenchmarkCounter(b *testing.B) {
 		}
 	})
 }
+
+func BenchmarkHistogram(b *testing.B) {
+	monitortest.New(b)
+	b.Run("no labels", func(b *testing.B) {
+		for n := 0; n < b.N; n++ {
+			testDistribution.RecordInt(1.0)
+		}
+	})
+	b.Run("dynamic labels", func(b *testing.B) {
+		for n := 0; n < b.N; n++ {
+			testDistribution.With(name.Value("test")).RecordInt(1.0)
+		}
+	})
+}

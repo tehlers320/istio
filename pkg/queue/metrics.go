@@ -37,13 +37,15 @@ var (
 		monitoring.WithLabels(queueIDTag))
 )
 
+type t interface{}
+
 type queueMetrics struct {
 	depth                monitoring.Metric
 	latency              monitoring.Metric
 	workDuration         monitoring.Metric
 	id                   string
-	addTimes             map[*Task]time.Time
-	processingStartTimes map[*Task]time.Time
+	addTimes             map[t]time.Time
+	processingStartTimes map[t]time.Time
 	clock                clock.WithTicker
 	queueDepth           int64
 }
@@ -95,8 +97,8 @@ func newQueueMetrics(id string) *queueMetrics {
 		workDuration:         workDuration.With(queueIDTag.Value(id)),
 		latency:              latency.With(queueIDTag.Value(id)),
 		clock:                clock.RealClock{},
-		addTimes:             map[*Task]time.Time{},
-		processingStartTimes: map[*Task]time.Time{},
+		addTimes:             map[t]time.Time{},
+		processingStartTimes: map[t]time.Time{},
 	}
 }
 
