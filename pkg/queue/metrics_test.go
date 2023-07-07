@@ -39,7 +39,7 @@ func BenchmarkMetricsQueue(b *testing.B) {
 }
 
 func BenchmarkMetricsQueueDisabled(b *testing.B) {
-	features.EnableControllerQueueMetrics = false
+	features.EnableControllerQueueMetrics = true
 	q := NewQueue(1 * time.Microsecond)
 	s := make(chan struct{})
 	go q.Run(s)
